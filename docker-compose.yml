@@ -1,0 +1,101 @@
+version: "3.9"
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    container_name: resume_db
+    environment:
+      POSTGRES_USER: recruiter
+      POSTGRES_PASSWORD: recruiter_password
+      POSTGRES_DB: resume_search
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/db/initdb.d:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U recruiter -d resume_search"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: resume_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: resume_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    container_name: resume_web
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      ollama:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://recruiter:recruiter_password@db:5432/resume_search
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: resume_search
+      POSTGRES_USER: recruiter
+      POSTGRES_PASSWORD: recruiter_password
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: nomic-embed-text
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    container_name: resume_worker
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      ollama:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://recruiter:recruiter_password@db:5432/resume_search
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: resume_search
+      POSTGRES_USER: recruiter
+      POSTGRES_PASSWORD: recruiter_password
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: nomic-embed-text
+    command: celery -A jobsearch worker --loglevel=info
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  ollama_data:
