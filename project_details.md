@@ -24,12 +24,14 @@ Other miscellanous tasks:
 
 ### Other relevant details
 
-Reference links:
+**Reference links:**
 
 - https://medium.com/timescale/implementing-filtered-semantic-search-using-pgvector-and-javascript-7c6eb4894c36
 - https://www.tigerdata.com/blog/combining-semantic-search-and-full-text-search-in-postgresql-with-cohere-pgvector-and-pgai
 - https://hasansajedi.medium.com/understanding-semantic-and-hybrid-search-with-python-and-pgvector-0967e83803e6
 - https://github.com/pgvector/pgvector
+
+**Repository link:** https://github.com/T-D-X/CS410-project
 
 # Project Proposal
 
