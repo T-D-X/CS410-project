@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "pgvector.django",
+    "rest_framework",
     "pipeline.apps.PipelineConfig",
 ]
 
@@ -111,5 +112,9 @@ CELERY_TASK_DEFAULT_QUEUE = os.getenv("CELERY_TASK_DEFAULT_QUEUE", "resume_inges
 CELERY_TASK_TIME_LIMIT = int(os.getenv("CELERY_TASK_TIME_LIMIT", 600))
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "nomic-embed-text")
-OLLAMA_REQUEST_TIMEOUT = int(os.getenv("OLLAMA_REQUEST_TIMEOUT", 60))
+OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
+OLLAMA_GENERATE_MODEL = os.getenv("OLLAMA_GENERATE_MODEL", "gpt-oss:20b")
+OLLAMA_REQUEST_TIMEOUT = int(os.getenv("OLLAMA_REQUEST_TIMEOUT", 180))
+
+EMBEDDINGS_ENDPOINT = os.getenv("EMBEDDINGS_ENDPOINT", "/api/embeddings")
+GENERATE_ENDPOINT = os.getenv("GENERATE_ENDPOINT", "/api/generate")

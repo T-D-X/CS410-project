@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from django.conf import settings
 from django.db import models
 from pgvector.django import VectorField
@@ -15,6 +13,7 @@ class ResumeDocument(models.Model):
 
     class Meta:
         ordering = ["file_name"]
+        indexes = [models.Index(fields=["file_name"], name="resume_file_name_idx")]
 
-    def __str__(self) -> str:  # pragma: no cover - used for admin display only
+    def __str__(self):
         return self.file_name
