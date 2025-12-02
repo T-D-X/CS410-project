@@ -5,7 +5,7 @@ Simple Django project to ingest resumes, generate embeddings with Ollama, and pe
 ## Requirements
 - Docker and Docker Compose
 - Ports: 5432 (Postgres), 6379 (Redis), 11434 (Ollama), 8000 (Web UI/API)
-- System resources: minimum ~8 GB RAM for smaller embedding models; 16 GB+ recommended if using larger models (e.g., `gpt-oss:20b`) so the Ollama container has enough memory to load the model. Increase Docker Desktop memory accordingly.
+- System resources: ~8 GB RAM recommended for the `nomic-embed-text` model; ensure Docker Desktop allocates enough memory for the Ollama container to load the model.
 
 ## Environment
 Environment variables are loaded from `.env` (ignored by git). A sample is provided in `.sample-env`:
