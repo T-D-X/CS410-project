@@ -2,30 +2,6 @@
 
 Simple Django + pgvector project to ingest resumes, generate embeddings with Ollama, and perform semantic search via a small web UI.
 
-## Project implementation details
-### Project description
-Builds a pipeline to ingest resumes, embed them with Ollama, store vectors in PostgreSQL/pgvector, and expose a minimal web UI/API for semantic and hybrid search.
-
-### Resume ingestion process
-- Supported sources: `.txt`, `.md`, `.json`, `.pdf` under `data/`.
-- Pipeline reads files, extracts text/metadata, generates embeddings via Ollama, and stores `ResumeDocument` rows with vectors in Postgres.
-- Deduplication by `file_name` with a DB index; existing filenames are skipped.
-- Can run inline or enqueue via Celery (`run_ingestion --async`).
-
-### Search methods
-- Vector search (cosine) over embeddings.
-- Hybrid search: vector shortlist + lexical re-rank on query keywords for better handling of explicit terms (years, tech names).
-- Configurable Ollama models for embedding and generation via env vars.
-
-### UI/UX considerations
-- Simple HTML page with textarea prompt, method dropdown (vector/hybrid), AJAX submission, and result cards showing preview/metadata/similarity.
-- Includes a sample expected JSON response for clarity and quick testing.
-
-### Potential improvements
-- Better result pagination, filtering (skills/experience), and loading/error states.
-- Automated tests for ingestion, embedding failures, and search ranking.
-- Model fallback and smaller default models for low-resource environments.
-
 ## Requirements
 - Docker and Docker Compose
 - Ports: 5432 (Postgres), 6379 (Redis), 11434 (Ollama), 8000 (Web UI/API)
