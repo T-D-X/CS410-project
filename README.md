@@ -2,6 +2,8 @@
 
 Simple Django project to ingest resumes, generate embeddings with Ollama, and perform semantic search via a small web UI.
 
+For implementation details, refer to [implementation_details.md](https://github.com/T-D-X/CS410-project/blob/master/implementation_details.md)
+
 ## Requirements
 - Docker and Docker Compose
 - Ports: 5432 (Postgres), 6379 (Redis), 11434 (Ollama), 8000 (Web UI/API)

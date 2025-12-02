@@ -1,4 +1,6 @@
 # Project implementation details
+<img width="876" height="937" alt="image" src="https://github.com/user-attachments/assets/5db311be-335e-4190-b548-13314a2451ab" />
+
 ## Project description
 Builds a pipeline to ingest resumes, embed them with Ollama, store vectors in PostgreSQL/pgvector, and expose a minimal web UI/API for semantic and hybrid search.
 
@@ -16,9 +18,6 @@ Builds a pipeline to ingest resumes, embed them with Ollama, store vectors in Po
 ## UI/UX considerations
 - Simple HTML page with textarea prompt, method dropdown (vector/hybrid), AJAX submission, and result cards showing preview/metadata/similarity.
 - Includes a sample expected JSON response for clarity and quick testing.
-
-<img width="876" height="937" alt="image" src="https://github.com/user-attachments/assets/5db311be-335e-4190-b548-13314a2451ab" />
-
 
 ## Potential improvements
 - More complex search process involving multiple steps. (e.g. Use language models to extract skill and requirements from the query before searching)
