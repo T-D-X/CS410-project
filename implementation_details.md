@@ -11,9 +11,22 @@ Builds a pipeline to ingest resumes, embed them with Ollama, store vectors in Po
 - Can run inline or enqueue via Celery (`run_ingestion --async`).
 
 ## Search methods
-- Vector search (cosine) over embeddings.
-- Hybrid search: vector shortlist + lexical re-rank on query keywords for better handling of explicit terms (years, tech names).
-- Configurable Ollama models for embedding and generation via env vars.
+Here are the details of each supported search method and observations:
+
+### Vector search (cosine)
+- Implementation: pgvector `CosineDistance` annotated on `ResumeDocument.embedding`, ordered ascending, then similarity calculated as `1 - distance`.
+- When to use: general semantic matching and recall of resumes that paraphrase the query.
+
+### Hybrid search (vector + lexical)
+- Implementation: vector shortlist by cosine, then re-rank with a combined score of vector similarity and lexical overlap (keyword counts normalized and weighted).
+- When to use: queries with explicit terms (years, tools) where you want both semantic and exact term emphasis.
+- Tunables: shortlist size, lexical weight, stopword handling.
+
+### BM25 / lexical search
+- Implementation: PostgreSQL full-text search via `SearchVector` + `SearchRank` on `content` (english config), ordered by rank.
+- When to use: precision on exact terms/numbers, lightweight retrieval without embeddings.
+
+All methods configurable via query payload (`method`: vector | hybrid | bm25); embedding model via env (`OLLAMA_EMBED_MODEL`).
 
 ## UI/UX considerations
 - Simple HTML page with textarea prompt, method dropdown (vector/hybrid), AJAX submission, and result cards showing preview/metadata/similarity.

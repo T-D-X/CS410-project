@@ -1,3 +1,11 @@
+# Final project submission details
+
+### Project implementation details 
+Link to documentation: https://github.com/T-D-X/CS410-project/blob/master/implementation_details.md
+
+### Setting up the project
+Link to documentation: https://github.com/T-D-X/CS410-project/blob/master/README.md
+
 # Project Update
 
 ### Project plan and progress
@@ -9,7 +17,7 @@ The following table will list the tasks in the project as well as the progress o
 | Gather data for retrieval (i.e. resumes)                                                                                                 |Done     |
 | Create a docker-compose with dockerfiles for: Postgresql + pgvector and Webserver for interface (Python Django)                        |Done      |
 | Create script to:  Gather relevant data from each file, Generate embeddings the data for each file and Store them in Postgresql    |Done      |
-| Create a simple webpage to perform semantic search & display results in the form of the IDs of the rows containing the document matches. |          |
+| Create a simple webpage to perform semantic search & display results in the form of the IDs of the rows containing the document matches. |Done      |
 
 Other miscellanous tasks:
 - Updloading the project onto a public GitHub respository 
