@@ -49,8 +49,16 @@ python manage.py run_ingestion --directory data --async
 ```
 
 ## Search UI/API
-- Open http://localhost:8000/search/ to load the HTML page with the prompt form and AJAX-powered results list.
-- POSTing JSON `{"query": "<your requirements>"}` to `/search/` returns extracted criteria and ranked matches from pgvector.
+- Open http://127.0.0.1:8000/search/ to load the HTML page with the prompt form, method dropdown, and AJAX-powered results list.
+- POSTing JSON to `/search/`:
+  ```json
+  { "query": "<your requirements>", "method": "vector|hybrid|bm25" }
+  ```
+  - `vector`: cosine similarity over embeddings
+  - `hybrid`: vector shortlist re-ranked with lexical overlap
+  - `bm25`: PostgreSQL full-text/BM25-style lexical search
+  
+  Response includes `results` and echoes the chosen `method`.
 
 ## Environment configuration
 Defaults are set in `docker-compose.yml` (e.g., `DATABASE_URL`, `OLLAMA_BASE_URL`, `OLLAMA_MODEL`). Override by exporting variables or editing the compose file if you need different models or database settings.

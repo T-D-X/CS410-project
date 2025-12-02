@@ -32,29 +32,7 @@
     <h2>Results</h2>
     <div id="results"></div>
 
-    <h3>Expected JSON response</h3>
-    <pre id="sample-response"></pre>
-
     <script>
-      const sample = {
-        criteria: {
-          skills: ["Python", "Django", "PostgreSQL"],
-          experience: ["5+ years backend development"],
-          education: ["Bachelor's in CS"],
-          raw: "Original model response text"
-        },
-        method: "hybrid",
-        results: [
-          {
-            file_name: "resume_123.txt",
-            metadata: { source: "resume_123.txt" },
-            content_preview: "Experienced backend engineer with Django and Celery...",
-            similarity: 0.83
-          }
-        ]
-      };
-      document.getElementById("sample-response").textContent = JSON.stringify(sample, null, 2);
-
       const form = document.getElementById("search-form");
       const resultsDiv = document.getElementById("results");
 
@@ -72,7 +50,7 @@
           .map(
             (item) => `
               <div class="result-card">
-                <strong>${item.file_name}</strong><br/>
+                <strong>Candidate ${item.candidate_id} - ${item.file_name}</strong><br/>
                 <small>Similarity: ${item.similarity !== null ? item.similarity.toFixed(3) : "n/a"}</small>
                 <p>${item.content_preview}</p>
                 <pre>${JSON.stringify(item.metadata || {}, null, 2)}</pre>

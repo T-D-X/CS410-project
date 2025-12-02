@@ -23,3 +23,4 @@ Builds a pipeline to ingest resumes, embed them with Ollama, store vectors in Po
 - Better result pagination, filtering (skills/experience), and loading/error states.
 - Automated tests for ingestion, embedding failures, and search ranking.
 - Model fallback and smaller default models for low-resource environments.
+- Preprocess and extract the skills and experiences from the resumes as part of the ingestion process
