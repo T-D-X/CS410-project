@@ -115,6 +115,4 @@ OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 OLLAMA_GENERATE_MODEL = os.getenv("OLLAMA_GENERATE_MODEL", "gpt-oss:20b")
 OLLAMA_REQUEST_TIMEOUT = int(os.getenv("OLLAMA_REQUEST_TIMEOUT", 180))
-
 EMBEDDINGS_ENDPOINT = os.getenv("EMBEDDINGS_ENDPOINT", "/api/embeddings")
-GENERATE_ENDPOINT = os.getenv("GENERATE_ENDPOINT", "/api/generate")

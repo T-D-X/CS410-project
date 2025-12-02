@@ -47,27 +47,27 @@ def parse_json_block(raw_text: str) -> dict[str, Any]:
     return {}
 
 
-def extract_candidate_requirements(prompt: str) -> dict[str, list[str]]:
-    url = f"{settings.OLLAMA_BASE_URL}{settings.GENERATE_ENDPOINT}"
-    generation_prompt = (
-        "Given the user's hiring request, list the target skills, experience, and education. "
-        "Respond with JSON using keys skills, experience, and education, each an array of strings. "
-        f"User request: {prompt}"
-    )
-    response = requests.post(
-        url,
-        json={"model": settings.OLLAMA_GENERATE_MODEL, "prompt": generation_prompt, "stream": False},
-        timeout=settings.OLLAMA_REQUEST_TIMEOUT,
-    )
-    response.raise_for_status()
-    raw_text = response.json().get("response") or response.text
-    parsed = parse_json_block(raw_text)
-    return {
-        "skills": parsed.get("skills", []),
-        "experience": parsed.get("experience", []),
-        "education": parsed.get("education", []),
-        "raw": raw_text,
-    }
+# def extract_candidate_requirements(prompt: str) -> dict[str, list[str]]:
+#     url = f"{settings.OLLAMA_BASE_URL}{settings.GENERATE_ENDPOINT}"
+#     generation_prompt = (
+#         "Given the user's hiring request, list the target skills, experience, and education. "
+#         "Respond with JSON using keys skills, experience, and education, each an array of strings. "
+#         f"User request: {prompt}"
+#     )
+#     response = requests.post(
+#         url,
+#         json={"model": settings.OLLAMA_GENERATE_MODEL, "prompt": generation_prompt, "stream": False},
+#         timeout=settings.OLLAMA_REQUEST_TIMEOUT,
+#     )
+#     response.raise_for_status()
+#     raw_text = response.json().get("response") or response.text
+#     parsed = parse_json_block(raw_text)
+#     return {
+#         "skills": parsed.get("skills", []),
+#         "experience": parsed.get("experience", []),
+#         "education": parsed.get("education", []),
+#         "raw": raw_text,
+#     }
 
 
 def search_candidates(query_embedding: list[float], limit: int = 10) -> list[dict[str, Any]]:

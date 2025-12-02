@@ -3,10 +3,12 @@ services:
     build:
       context: .
       dockerfile: docker/db/Dockerfile
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: recruiter
-      POSTGRES_PASSWORD: recruiter_password
-      POSTGRES_DB: resume_search
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/db/initdb.d:/docker-entrypoint-initdb.d:ro
@@ -28,6 +30,10 @@ services:
 
   ollama:
     image: ollama/ollama:latest
+    env_file:
+      - .env
+    environment:
+      OLLAMA_MODEL: ${OLLAMA_MODEL}
     entrypoint: ["/bin/sh", "/usr/local/bin/ollama_entrypoint.sh"]
     ports:
       - "11434:11434"
@@ -47,18 +53,21 @@ services:
         condition: service_started
       ollama:
         condition: service_started
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: postgres://recruiter:recruiter_password@db:5432/resume_search
-      POSTGRES_HOST: db
-      POSTGRES_PORT: "5432"
-      POSTGRES_DB: resume_search
-      POSTGRES_USER: recruiter
-      POSTGRES_PASSWORD: recruiter_password
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
-      OLLAMA_BASE_URL: http://ollama:11434
-      OLLAMA_EMBED_MODEL: nomic-embed-text
-      OLLAMA_GENERATE_MODEL: gpt-oss:20b
+      DATABASE_URL: ${DATABASE_URL}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
+      OLLAMA_EMBED_MODEL: ${OLLAMA_EMBED_MODEL}
+      OLLAMA_GENERATE_MODEL: ${OLLAMA_GENERATE_MODEL}
+      OLLAMA_REQUEST_TIMEOUT: ${OLLAMA_REQUEST_TIMEOUT}
     volumes:
       - .:/app
     ports:
@@ -76,18 +85,21 @@ services:
         condition: service_started
       ollama:
         condition: service_started
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: postgres://recruiter:recruiter_password@db:5432/resume_search
-      POSTGRES_HOST: db
-      POSTGRES_PORT: "5432"
-      POSTGRES_DB: resume_search
-      POSTGRES_USER: recruiter
-      POSTGRES_PASSWORD: recruiter_password
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
-      OLLAMA_BASE_URL: http://ollama:11434
-      OLLAMA_EMBED_MODEL: nomic-embed-text
-      OLLAMA_GENERATE_MODEL: gpt-oss:20b
+      DATABASE_URL: ${DATABASE_URL}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
+      OLLAMA_EMBED_MODEL: ${OLLAMA_EMBED_MODEL}
+      OLLAMA_GENERATE_MODEL: ${OLLAMA_GENERATE_MODEL}
+      OLLAMA_REQUEST_TIMEOUT: ${OLLAMA_REQUEST_TIMEOUT}
     command: celery -A jobsearch worker --loglevel=info
     volumes:
       - .:/app
