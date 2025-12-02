@@ -1,6 +1,6 @@
 # Job Candidate Seeker
 
-Simple Django + pgvector project to ingest resumes, generate embeddings with Ollama, and perform semantic search via a small web UI.
+Simple Django project to ingest resumes, generate embeddings with Ollama, and perform semantic search via a small web UI.
 
 ## Requirements
 - Docker and Docker Compose
@@ -13,6 +13,8 @@ Environment variables are loaded from `.env` (ignored by git). A sample is provi
 cp .sample-env .env
 ```
 Adjust values if you need different models or credentials.
+
+These values are loaded as defaults in `docker-compose.yml` (e.g., `DATABASE_URL`, `OLLAMA_BASE_URL`, `OLLAMA_MODEL`). Override by modifying the .env.
 
 ## Services (docker-compose.yml)
 - **db**: PostgreSQL 16 with `pgvector` extension enabled for vector storage and similarity search.
@@ -59,6 +61,3 @@ python manage.py run_ingestion --directory data --async
   - `bm25`: PostgreSQL full-text/BM25-style lexical search
   
   Response includes `results` and echoes the chosen `method`.
-
-## Environment configuration
-Defaults are set in `docker-compose.yml` (e.g., `DATABASE_URL`, `OLLAMA_BASE_URL`, `OLLAMA_MODEL`). Override by exporting variables or editing the compose file if you need different models or database settings.
