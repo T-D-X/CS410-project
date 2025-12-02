@@ -3,6 +3,7 @@ import requests
 from typing import Any
 
 from django.conf import settings
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from pipeline.models import ResumeDocument
 from pgvector.django import CosineDistance
 
@@ -114,3 +115,21 @@ def hybrid_search_candidates(
 
     scored.sort(key=lambda item: item[0], reverse=True)
     return [item[1] for item in scored[:limit]]
+
+
+def bm25_search_candidates(query_text: str, limit: int = 10) -> list[dict[str, Any]]:
+    """
+    Lexical/BM25-style search using PostgreSQL full-text ranking.
+    """
+    vector = SearchVector("content", config="english")
+    query = SearchQuery(query_text, search_type="plain", config="english")
+    documents = (
+        ResumeDocument.objects.annotate(rank=SearchRank(vector, query))
+        .filter(rank__gt=0)
+        .order_by("-rank")[:limit]
+    )
+    results: list[dict[str, Any]] = []
+    for doc in documents:
+        rank = getattr(doc, "rank", None)
+        results.append(_format_result(doc, rank, html_format=True))
+    return results

@@ -22,7 +22,6 @@ Builds a pipeline to ingest resumes, embed them with Ollama, store vectors in Po
 - Includes a sample expected JSON response for clarity and quick testing.
 
 ### Potential improvements
-- Add lexical/BM25 search and a weighted hybrid scorer with tunable weights.
 - Better result pagination, filtering (skills/experience), and loading/error states.
 - Automated tests for ingestion, embedding failures, and search ranking.
 - Model fallback and smaller default models for low-resource environments.
