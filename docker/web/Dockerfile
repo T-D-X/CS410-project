@@ -14,6 +14,7 @@ RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r /tmp/requirements.txt
 
 COPY . /app
+RUN chmod +x docker/web/web_entrypoint.sh
 
 EXPOSE 8000
 

@@ -1,3 +1,4 @@
+import re
 import json
 import requests
 from typing import Any
@@ -11,7 +12,7 @@ from pgvector.django import CosineDistance
 def _format_result(doc, similarity: float | None, html_format=True) -> dict[str, Any]:
     content_preview = (doc.content[:300] + "...") if len(doc.content) > 300 else doc.content
     if html_format:
-        content_preview = content_preview.replace("\n", "<br>")
+        content_preview = re.sub(r"\n+", "<br>", content_preview)
 
     return {
         "candidate_id": doc.id,
@@ -99,7 +100,7 @@ def hybrid_search_candidates(
         .order_by("distance")[:shortlist]
     )
 
-    scored: list[tuple[float, dict[str, Any]]] = []
+    scored = []
     for doc in candidates:
         distance = getattr(doc, "distance", None)
         base_similarity = 1 - float(distance) if distance is not None else 0.0
@@ -128,7 +129,7 @@ def bm25_search_candidates(query_text: str, limit: int = 10) -> list[dict[str, A
         .filter(rank__gt=0)
         .order_by("-rank")[:limit]
     )
-    results: list[dict[str, Any]] = []
+    results = []
     for doc in documents:
         rank = getattr(doc, "rank", None)
         results.append(_format_result(doc, rank, html_format=True))
