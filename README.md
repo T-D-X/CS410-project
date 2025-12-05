@@ -32,16 +32,6 @@ docker-compose up
 ```
 The web app will be available at http://localhost:8000 (search UI at `/search/`, health check at `/health/`).
 
-## First-time setup inside the web container
-Open a shell in the running web container:
-```bash
-docker-compose exec web bash
-```
-Run migrations:
-```bash
-python manage.py migrate
-```
-
 ## Ingest resumes
 Place source files in `data/` (supports `.txt`, `.md`, `.json`, `.pdf`). Then run:
 ```bash
