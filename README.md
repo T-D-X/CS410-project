@@ -32,6 +32,8 @@ docker-compose up
 ```
 The web app will be available at http://localhost:8000 (search UI at `/search/`, health check at `/health/`).
 
+The database and staticfiles will be created on the first run.
+
 ## Ingest resumes
 Place source files in `data/` (supports `.txt`, `.md`, `.json`, `.pdf`). Then run:
 ```bash
