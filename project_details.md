@@ -5,6 +5,8 @@ Link to documentation: https://github.com/T-D-X/CS410-project/blob/master/implem
 
 ### Setting up the project
 Link to documentation: https://github.com/T-D-X/CS410-project/blob/master/README.md
+Link to setup video: https://mediaspace.illinois.edu/media/t/1_ixk8hpp1
+
 
 # Project Update
 

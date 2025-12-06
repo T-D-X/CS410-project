@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 import os
+import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
 from dotenv import load_dotenv
+from django.utils.log import DEFAULT_LOGGING
 
 load_dotenv()
 
@@ -116,3 +116,18 @@ OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 OLLAMA_REQUEST_TIMEOUT = int(os.getenv("OLLAMA_REQUEST_TIMEOUT", 180))
 EMBEDDINGS_ENDPOINT = os.getenv("EMBEDDINGS_ENDPOINT", "/api/embeddings")
+
+LOGGING = DEFAULT_LOGGING
+LOGGING['handlers']['console'] = {
+    'class': 'logging.StreamHandler',
+    'formatter': 'django.server' if DEBUG else 'verbose',
+    'level': 'DEBUG',
+    'stream': sys.stdout,
+    'filters': [],
+}
+LOGGING['root'] = {
+    'handlers': ['console'],
+    'level': 'DEBUG',
+}
+
+LOGGING['disable_existing_loggers'] = False

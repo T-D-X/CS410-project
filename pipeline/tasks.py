@@ -108,11 +108,12 @@ def ingest_directory(directory: Path) -> dict[str, object]:
 
     for file_path in list_resume_files(directory):
         try:
+            logger.debug(f"Ingest file - {file_path}")
             resume_data = gather_resume_data(file_path)
             created = store_resume(resume_data)
             if created:
                 processed += 1
-        except Exception as exc:  # pragma: no cover - defensive logging
+        except Exception as exc:
             error_msg = f"Failed to ingest {file_path.name}: {exc}"
             logger.exception(error_msg)
             errors.append(error_msg)
